@@ -1,39 +1,82 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.example</groupId>
-  <artifactId>spark-scala-ramya</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>Archetype - spark-scala-ramya</name>
-  <url>http://maven.apache.org</url>
+<project xmlns="http://maven.apache.org/POM/4.0.0" ...>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>spark-scala-ramya</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <scala.version>2.12.15</scala.version>
+        <spark.version>3.5.0</spark.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
+<!-- Spark for Scala 2.12 -->
     <dependency>
         <groupId>org.apache.spark</groupId>
         <artifactId>spark-core_2.12</artifactId>
-        <version>3.5.0</version>
+        <version>${spark.version}</version>
     </dependency>
     <dependency>
         <groupId>org.apache.spark</groupId>
         <artifactId>spark-sql_2.12</artifactId>
-        <version>3.5.0</version>
+        <version>${spark.version}</version>
     </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
-</project>
+<!-- Scala library explicitly -->
+<dependency>
+    <groupId>org.scala-lang</groupId>
+    <artifactId>scala-library</artifactId>
+    <version>${scala.version}</version>
+</dependency>
+
+<!-- ScalaTest for unit testing (Scala 2.12 version) -->
+<dependency>
+    <groupId>org.scalatest</groupId>
+    <artifactId>scalatest_2.12</artifactId>
+    <version>3.2.18</version>
+    <scope>test</scope>
+</dependency>
+</dependencies>
+
+<build>
+<sourceDirectory>src/main/scala</sourceDirectory>
+<testSourceDirectory>src/test/scala</testSourceDirectory>
+
+<plugins>
+    <!-- Use this maintained Scala Maven plugin -->
+    <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>4.7.0</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>compile</goal>
+                    <goal>testCompile</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <scalaVersion>${scala.version}</scalaVersion>
+        </configuration>
+    </plugin>
+
+    <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+        </configuration>
+    </plugin>
+
+    <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+    </plugin>
+</plugins>
+</build>
+        </project>
